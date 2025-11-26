@@ -1,0 +1,44 @@
+"use client";
+
+import { useState } from "react";
+
+export default function Login() {
+  const [u, setU] = useState("");
+  const [p, setP] = useState("");
+  const [err, setErr] = useState("");
+
+  async function submit() {
+    const r = await fetch("/api/login", {
+      method: "POST",
+      body: JSON.stringify({ username: u, password: p })
+    });
+    const d = await r.json();
+    if (d.error) return setErr(d.error);
+    window.location.href = "/chat";
+  }
+
+  return (
+    <div className="min-h-screen flex items-center justify-center text-white">
+      <div className="p-6 border border-neutral-700 rounded-lg w-full max-w-xs">
+        <h1 className="text-xl mb-4">Login</h1>
+
+        <input className="w-full bg-neutral-900 p-2 mb-3"
+          placeholder="Username" onChange={e => setU(e.target.value)} />
+
+        <input type="password" className="w-full bg-neutral-900 p-2 mb-3"
+          placeholder="Password" onChange={e => setP(e.target.value)} />
+
+        {err && <p className="text-red-400">{err}</p>}
+
+        <button className="w-full bg-white text-black py-2 rounded"
+          onClick={submit}>
+          Login
+        </button>
+
+        <a href="/register" className="block text-center text-neutral-400 mt-3 text-sm">
+          Create an account
+        </a>
+      </div>
+    </div>
+  );
+}
