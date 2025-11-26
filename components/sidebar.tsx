@@ -1,25 +1,16 @@
 "use client";
+
 import Link from "next/link";
 
 export default function Sidebar() {
   return (
-    <div className="w-64 bg-black border-r border-neutral-800 h-screen p-4 flex flex-col">
-      <Link href="/chat">
-        <button className="w-full bg-neutral-900 p-3 rounded-lg text-left">
-          + New Chat
-        </button>
-      </Link>
+    <aside className="w-60 h-screen bg-black border-r border-neutral-900 p-4 text-neutral-300">
+      <h2 className="text-lg font-semibold mb-4">LazyAI</h2>
 
-      <div className="mt-6 text-neutral-400 text-sm">LazyAI</div>
-      <div className="flex-1 mt-4 text-neutral-500">
-        <p>No conversations yet.</p>
+      <div className="flex flex-col gap-3">
+        <Link href="/chat" className="hover:text-white">New Chat</Link>
+        <Link href="/" className="hover:text-white">Home</Link>
       </div>
-
-      <div className="mt-auto">
-        <button className="w-full p-3 rounded-lg bg-neutral-900 text-left">
-          Settings
-        </button>
-      </div>
-    </div>
+    </aside>
   );
 }
