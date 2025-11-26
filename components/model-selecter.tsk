@@ -1,0 +1,16 @@
+"use client";
+
+export default function ModelSelector({ model, setModel }: any) {
+  return (
+    <select
+      value={model}
+      onChange={(e) => setModel(e.target.value)}
+      className="bg-neutral-900 border border-neutral-800 p-2 rounded"
+    >
+      <option value="LazyV.----">LazyV.----</option>
+      <option value="LazyV..---">LazyV..---</option>
+      <option value="LazyV...--">LazyV...--</option>
+      <option value="LazyV..-.-">LazyV..-.- (Unrestricted)</option>
+    </select>
+  );
+}
