@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import Message from "../../components/message";
 import ModelSelector from "../../components/model-selector";
@@ -7,50 +8,56 @@ export default function ChatUI() {
   const [messages, setMessages] = useState<any[]>([]);
   const [input, setInput] = useState("");
   const [model, setModel] = useState("LazyV.----");
+  const [loading, setLoading] = useState(false);
 
   async function sendMessage() {
-    if (!input.trim()) return;
+    if (!input.trim() || loading) return;
 
     const userMsg = { role: "user", content: input };
-    const newMessages = [...messages, userMsg];
-    setMessages(newMessages);
-
+    setMessages((prev) => [...prev, userMsg]);
     setInput("");
+    setLoading(true);
 
     const res = await fetch("/api/chat", {
       method: "POST",
-      body: JSON.stringify({
-        messages: newMessages,
-        model
-      })
+      body: JSON.stringify({ messages: [...messages, userMsg], model }),
     });
 
     const data = await res.json();
 
-    setMessages([...newMessages, { role: "assistant", content: data.reply }]);
+    setMessages((prev) => [...prev, { role: "assistant", content: data.reply }]);
+    setLoading(false);
   }
 
   return (
-    <div className="flex-1 flex flex-col h-screen p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">LazyAI Chat</h2>
+    <div className="flex flex-col flex-1 p-6 bg-neutral-950 text-white">
+      <div className="pb-3 border-b border-neutral-800 flex justify-between items-center">
+        <h2 className="text-lg font-semibold">LazyAI Chat</h2>
         <ModelSelector model={model} setModel={setModel} />
       </div>
 
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto py-4 flex flex-col">
         {messages.map((m, i) => (
           <Message key={i} role={m.role} content={m.content} />
         ))}
+        {loading && (
+          <div className="text-neutral-500 animate-pulse px-4 py-2">
+            LazyAI is thinking…
+          </div>
+        )}
       </div>
 
-      <div className="mt-4 flex gap-2">
+      <div className="pt-4 border-t border-neutral-800 flex gap-3">
         <input
-          className="flex-1 bg-neutral-900 p-3 rounded border border-neutral-800"
+          className="flex-1 px-4 py-2 rounded-lg bg-neutral-900 border border-neutral-700 text-sm"
+          placeholder="Ask LazyAI something…"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask LazyAI anything..."
         />
-        <button onClick={sendMessage} className="px-4 bg-blue-600 rounded">
+        <button
+          onClick={sendMessage}
+          className="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-sm font-semibold"
+        >
           Send
         </button>
       </div>
