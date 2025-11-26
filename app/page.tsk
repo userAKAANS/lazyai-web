@@ -1,0 +1,18 @@
+import Link from "next/link";
+
+export default function Home() {
+  return (
+    <main className="flex flex-col items-center justify-center h-screen text-center">
+      <h1 className="text-5xl font-bold mb-6">LazyAI</h1>
+      <p className="text-neutral-400 max-w-xl mb-10">
+        The smartest AI built by Xohus Interactive LLC. Powered by the LazyV model family.
+      </p>
+
+      <Link href="/chat">
+        <button className="px-6 py-3 bg-white text-black rounded-lg font-semibold">
+          Try LazyAI
+        </button>
+      </Link>
+    </main>
+  );
+}
