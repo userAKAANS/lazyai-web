@@ -1,0 +1,9 @@
+export default function Message({ role, content }: any) {
+  return (
+    <div className={`my-3 ${role === "assistant" ? "text-blue-300" : "text-white"}`}>
+      <div className="p-3 bg-neutral-900 rounded-lg border border-neutral-800">
+        {content}
+      </div>
+    </div>
+  );
+}
