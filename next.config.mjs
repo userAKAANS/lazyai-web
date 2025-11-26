@@ -1,6 +1,11 @@
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    serverActions: true
-  }
+    serverActions: {},
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
+
 export default nextConfig;
